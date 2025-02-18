@@ -1,0 +1,3 @@
+.swiper-scrollbar-drag {
+  @apply bg-primary-800 rounded-none;
+}
