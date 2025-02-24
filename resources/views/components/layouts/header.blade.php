@@ -3,7 +3,7 @@
     <x-container class="flex items-center justify-between px-4 py-2">
         <nav role="navigation" class="flex items-center gap-10">
             <x-link :href="route('home')" class="relative text-sm">
-                <x-brand class="h-8 w-auto" aria-hidden="true" />
+                <x-brand class="h-8 w-auto" aria-hidden="true"/>
             </x-link>
             <livewire:components.navigation />
         </nav>

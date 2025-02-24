@@ -17,7 +17,9 @@ return [
     |
     */
 
-    'brand' => Models\Brand::class,
+    // 'brand' => Models\Brand::class,
+    'brand' => \App\Models\Brand::class, 
+
 
     /*
     |--------------------------------------------------------------------------
@@ -30,7 +32,9 @@ return [
     |
     */
 
-    'category' => Models\Category::class,
+    // 'category' => Models\Category::class,
+    'category' => \App\Models\Category::class, 
+
 
     /*
     |--------------------------------------------------------------------------
@@ -43,7 +47,9 @@ return [
     |
     */
 
-    'collection' => Models\Collection::class,
+    // 'collection' => Models\Collection::class,
+    'collection'  => \App\Models\Collection::class, 
+
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +62,8 @@ return [
     |
     */
 
-    'product' => Models\Product::class,
+    // 'product' => Models\Product::class,
+    'product' => \App\Models\Product::class, 
 
     /*
     |--------------------------------------------------------------------------
@@ -69,7 +76,8 @@ return [
     |
     */
 
-    'variant' => Models\ProductVariant::class,
+    // 'variant' => Models\ProductVariant::class,
+    'variant' => \App\Models\ProductVariant::class, 
 
     /*
     |--------------------------------------------------------------------------

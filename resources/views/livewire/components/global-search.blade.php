@@ -9,6 +9,7 @@ use function Livewire\Volt\{state};
 ?>
 
 <div class="flex lg:ml-6">
+    
     <button type="button" class="p-2 text-gray-400 hover:text-gray-500">
         <span class="sr-only">{{ __('Recherche') }}</span>
         <svg
@@ -26,4 +27,5 @@ use function Livewire\Volt\{state};
             />
         </svg>
     </button>
+    
 </div>
