@@ -44,7 +44,9 @@
         </div>
     </x-container>
 
-    <x-stats />
+    {{-- stats beggining
+     <x-stats /> 
+      stats end--}}
 
     <div class="bg-gray-50">
         <x-container class="py-16 lg:py-24">

@@ -26,7 +26,12 @@
             <livewire:components.currency-selector />
 
             <!-- Search -->
-            <livewire:components.global-search />
+            {{-- <livewire:components.global-search /> --}}
+            {{-- <livewire:components.new-product-search />  --}}
+
+            
+            <livewire:product-search />
+
 
             <!-- Cart -->
             <livewire:components.shopping-cart-button />

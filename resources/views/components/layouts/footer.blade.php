@@ -20,7 +20,7 @@
                             {{ __('About') }}
                         </h3>
                         <ul role="list" class="mt-10 space-y-5">
-                            <li>
+                            {{-- <li>
                                 <x-footer-link :spa="false" href="https://laravelshopper.dev">
                                     {{ __('Documentation') }}
                                 </x-footer-link>
@@ -29,7 +29,7 @@
                                 <x-footer-link :spa="false" href="https://github.com/shopperlabs/shopper">
                                     {{ __('Github') }}
                                 </x-footer-link>
-                            </li>
+                            </li> --}}
                             <li>
                                 <x-footer-link href="#">{{ __('About') }}</x-footer-link>
                             </li>

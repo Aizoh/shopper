@@ -36,6 +36,27 @@ $this->call([
 ```
 to default seeder after publishing vendor resources 
 
+- Changes to storage to store cover image and logo add an uploads driver 
+
+```php
+
+//GO TO filesystems.php add this under disks,
+ 'uploads' => [
+            'driver' => 'local',
+            'root' => storage_path('app/uploads'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+    //if folder does not exist create it in storage/app/
+
+```
+
+###### After creating a Payment Method
+- Edit zone, Add it to the Zone to be used.
+- Navigate to Views->components->icons->payments and create a view for the payment method
+
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
