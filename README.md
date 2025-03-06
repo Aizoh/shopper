@@ -23,6 +23,8 @@ visit [laravel-shopper](https://laravelshopper.dev/docs/2.x) To explore this awe
         php artisan shopper:starter-kit:install livewire
         php artisan shopper:user
 
+        php artisan shopper:component:publish  #publish components
+
     ```
 
 ## ***changes realized***
@@ -57,7 +59,46 @@ to default seeder after publishing vendor resources
 - Edit zone, Add it to the Zone to be used.
 - Navigate to Views->components->icons->payments and create a view for the payment method
 
+## Custom Dashboard
 
+```bash
+
+    php artisan make:livewire CustomDashboard
+
+```
+In `Config\Shopper\Component\dashboard` alter 
+
+```php
+ 'pages' => [
+        // 'dashboard' => Pages\Dashboard::class,
+        'dashboard' => App\Livewire\CustomDashboard::class,
+    ],
+```
+To overide the view or copy it and amet it navigate to `vendor/shopper/framework/resources/views/livewire/pages/` get the view you want and copy it to the view you want. Alternatively you can copy it to overide the defaults for instance :
+
+```bash
+
+mkdir -p resources/views/vendor/shopper/livewire/pages
+cp vendor/shopper/framework/resources/views/livewire/pages/dashboard.blade.php resources/views/vendor/shopper/livewire/pages/
+
+# same as for other files such as lanhage translations
+mkdir -p resources/lang/vendor/shopper/en/pages
+cp vendor/shopper/framework/resources/lang/en/pages/dashboard.php resources/lang/vendor/shopper/en/pages/
+
+
+``` 
+now this will be treated as the view to take Instead of overiding anything in the Vendor directly because it will be overwritten on upgrades . Then proceed to Modify `resources/views/vendor/shopper/livewire/pages/dashboard.blade.php`
+
+## sidebar
+
+to see how to manipilate the sidebar plugin used [see](https://github.com/shopperlabs/shopper/blob/2.x/packages/admin/docs/content/extending/navigation.md)
+
+## views
+
+Copy Shopper views 
+```bash 
+cp -R vendor/shopper/framework/resources/views resources/views/vendor/shopper
+```
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
 - [Simple, fast routing engine](https://laravel.com/docs/routing).

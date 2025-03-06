@@ -15,6 +15,6 @@ state([
 
 <div class="hidden items-center gap-x-6 lg:flex">
     @foreach ($categories as $category)
-        <x-nav.item href="#">{{ $category->name }}</x-nav.item>
+        <x-nav.item :href="route('front.category', $category->slug)">{{ $category->name }}</x-nav.item>
     @endforeach
 </div>

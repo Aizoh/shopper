@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\LegalController;
 use App\Http\Controllers\ProductController;
+use App\Livewire\FrontCategories;
 use App\Models\Product;
 
 /*
@@ -21,6 +22,7 @@ use App\Models\Product;
 */
 
 Route::get('/', Pages\Home::class)->name('home');
+Route::get('/category/{slug}', FrontCategories::class)->name('front.category');
 Route::get('/products/{slug}', Pages\SingleProduct::class)->name('single-product');
 
 Route::get('search', [ProductController::class, 'searchFront'])->name('products.search');
@@ -30,6 +32,10 @@ Route::middleware('auth')->group(function (): void {
         ->name('order-confirmed');
 
     Route::get('checkout', Pages\Checkout::class)->name('checkout');
+});
+
+Route::prefix('blog')->group(function (): void {
+    Route::get('posts', [ProductController::class, 'index'])->name('posts');
 });
 
 /*
