@@ -6,6 +6,7 @@ use App\Livewire\Pages;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\LegalController;
+use App\Http\Controllers\MPesaController;
 use App\Http\Controllers\ProductController;
 use App\Livewire\FrontCategories;
 use App\Models\Product;
@@ -45,6 +46,8 @@ Route::get('/privacy', [LegalController::class, 'privacy'])->name('legal.privacy
 Route::get('/terms-of-use', [LegalController::class, 'terms'])->name('legal.terms');
 Route::get('/refund-policy', [LegalController::class, 'refund'])->name('legal.refund');
 Route::get('/shipping', [LegalController::class, 'shipping'])->name('legal.shipping');
+Route::get('/mpesa-callback', [MPesaController::class,'callback'])->name('mpesa.callback');
+
 #
 require __DIR__.'/auth.php';
 
