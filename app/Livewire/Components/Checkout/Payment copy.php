@@ -21,9 +21,6 @@ class Payment extends StepComponent
     #[Validate('required', message: 'You must select a payment method')]
     public ?int $currentSelected = null;
 
-    #[Validate('required_if:currentSelected,m-pesa', message: 'Phone number is required for Mpesa payment')]
-    public ?string $phoneNumber = null;
-
     /**
      * @var array|Collection
      */
@@ -48,13 +45,6 @@ class Payment extends StepComponent
         $this->methods = $zone ? $zone->paymentMethods : [];
     }
 
-    public function updatedCurrentSelected(): void
-    {
-        if ($this->currentSelected !== PaymentType::Mpesa()) {
-            $this->phoneNumber = null; // Clear phone number when switching from Mpesa
-        }
-    }
-
     public function save(): void
     {
         $this->validate();
@@ -70,17 +60,9 @@ class Payment extends StepComponent
         // };
         $paymentType = data_get(session()->get('checkout'), 'payment.0.slug');
 
-        // match ($paymentType) {
-        //     PaymentType::Cash() => (new PayWithCash)->handle($order),
-        //     PaymentType::Mpesa() => (new PayWithMpesa)->handle($order),
-        // };
         match ($paymentType) {
             PaymentType::Cash() => (new PayWithCash)->handle($order),
-            PaymentType::Mpesa() => (new PayWithMpesa)->handle($order, [
-                'phone_number' => $this->phoneNumber,
-                // 'transaction_id' => uniqid('MPESA_'),
-                'status' => 'pending',
-            ]),
+            PaymentType::Mpesa() => (new PayWithMpesa)->handle($order),
         };
     }
 

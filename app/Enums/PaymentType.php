@@ -21,4 +21,6 @@ enum PaymentType: string
     case NotchPay = 'notch-pay';
 
     case Cash = 'cash';
+
+    case Mpesa ='m-pesa';
 }

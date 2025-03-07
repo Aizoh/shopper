@@ -54,26 +54,6 @@
                     @endforeach
                 </div>
             </fieldset>
-              {{-- Show Mpesa Fields if Mpesa is selected --}}
-            @if($currentSelected && optional($methods->find($currentSelected))->slug === 'm-pesa')
-              <div class="p-4 mt-4 border border-green-300 bg-green-50 rounded-lg">
-                  <h2 class="text-sm font-bold text-green-700">{{ __('Mpesa Payment Details') }}</h2>
-                  <div class="mt-3 space-y-2">
-                      <label class="block text-sm font-medium text-gray-700">{{ __('Mpesa Phone Number') }}</label>
-                      <input type="text" wire:model="phoneNumber"
-                          class="block w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
-                          placeholder="Enter Mpesa Phone Number">
-                      @error('phoneNumber') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-                  </div>
-                  {{-- <div class="mt-3 space-y-2">
-                      <label class="block text-sm font-medium text-gray-700">{{ __('Transaction Code (if paid)') }}</label>
-                      <input type="text" wire:model="mpesa_code"
-                          class="block w-full p-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
-                          placeholder="Enter Mpesa Transaction Code">
-                      @error('mpesa_code') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-                  </div> --}}
-              </div>
-            @endif
 
             <div class="mt-8 space-y-8">
                 <p class="text-sm leading-5 text-gray-500">

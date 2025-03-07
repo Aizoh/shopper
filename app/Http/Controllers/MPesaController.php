@@ -347,7 +347,7 @@ class MPesaController extends Controller
         return $response['access_token'];
     }
 
-    //stk push: Mpesa Express
+    //stk push: Mpesa Express $amout, phone number to be passed, ordernumber
     public function stk_push()
     {
         //get access key from above
