@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Throwable;
 
 use function Laravel\Prompts\alert;
@@ -348,6 +349,203 @@ class MPesaController extends Controller
     }
 
     //stk push: Mpesa Express $amout, phone number to be passed, ordernumber
+    // public function order_stk_push($phone_number,$amount, $order_id )
+    // {
+    //     //get access key from above
+    //     $phone_number = '254' . Str::substr($this->$phone_number, -9);
+
+    //     $access_token = $this->token();
+    //     $time_stamp = Carbon::now()->format('YmdHis');
+    //     //$amount = '1';
+    //     // Payer
+    //     $party_a = $phone_number;
+    //     //receiver paybill
+    //     $party_b = env('BUSINESS_SHORTCODE');
+    //     //$phone_number = 254718582904;
+    //     // receive feedback
+    //     // Name of who's being payed
+    //     $passkey = env('PASSKEY');
+    //     $transaction_type = env('TRANSACTION_TYPE');
+    //     $callback_url = env('CALLBACK_URL');
+    //     // $callback_url ='https://48a1-197-248-34-233.ngrok-free.app/payments/stk-callback';
+    //     $business_short_code = env('BUSINESS_SHORTCODE');
+    //     $account_reference = env('ACCOUNT_REFERENCE');
+    //     $password = base64_encode($business_short_code . $passkey . $time_stamp);
+    //     $push_url = env('PUSH_URL');
+    //     $transaction_desc = env('TRANSACTION_DESCRIPTION');
+
+    //     try {
+    //         $response = Http::withToken($access_token)->post($push_url, [
+    //             'BusinessShortCode' => $business_short_code,
+    //             'Password' => $password,
+    //             'Timestamp' => $time_stamp,
+    //             'TransactionType' => $transaction_type,
+    //             'Amount' => $amount,
+    //             'PartyA' => $party_a,
+    //             'PartyB' => $party_b,
+    //             'PhoneNumber' => $phone_number,
+    //             'AccountReference' => $account_reference,
+    //             'TransactionDesc' => $transaction_desc,
+    //             'CallBackURL' => $callback_url
+    //         ]);
+    //     } catch (Throwable $e) {
+    //         return $e->getMessage();
+    //     }
+    //     $res = json_decode($response);
+    //     $ResponseCode = $res->ResponseCode;
+    //     if ($ResponseCode == 0) {
+    //         $MerchantRequestID = $res->MerchantRequestID;
+    //         $CheckoutRequestID = $res->CheckoutRequestID;
+    //         $CustomerMessage = $res->CustomerMessage;
+
+    //         //save to database
+    //         $payment = new Mpesa();
+    //         $payment->order_id = $order_id;
+    //         $payment->phone = $phone_number;
+    //         $payment->amount = $amount;
+    //         $payment->reference = $account_reference;
+    //         $payment->description = $transaction_desc;
+    //         $payment->MerchantRequestID = $MerchantRequestID;
+    //         $payment->CheckoutRequestID = $CheckoutRequestID;
+    //         $payment->status = 'Requested';
+    //         $payment->save();
+
+    //         return $CustomerMessage;
+    //     }
+    // }
+
+    //app
+    public function order_stk_push($phone_number, $amount, $order_id)
+{
+    // Ensure phone number is correctly formatted to Kenyan format
+    $phone_number = '254' . Str::substr($phone_number, -9);
+
+    $access_token = $this->token();
+    $time_stamp = now()->format('YmdHis');
+
+    $party_a = $phone_number;
+    $party_b = env('BUSINESS_SHORTCODE');
+    $passkey = env('PASSKEY');
+    $transaction_type = env('TRANSACTION_TYPE');
+    $callback_url = env('CALLBACK_URL');
+    $business_short_code = env('BUSINESS_SHORTCODE');
+    $account_reference = env('ACCOUNT_REFERENCE');
+    $password = base64_encode($business_short_code . $passkey . $time_stamp);
+    $push_url = env('PUSH_URL');
+    $transaction_desc = env('TRANSACTION_DESCRIPTION');
+
+    try {
+        $response = Http::withToken($access_token)->post($push_url, [
+            'BusinessShortCode' => $business_short_code,
+            'Password' => $password,
+            'Timestamp' => $time_stamp,
+            'TransactionType' => $transaction_type,
+            'Amount' => $amount,
+            'PartyA' => $party_a,
+            'PartyB' => $party_b,
+            'PhoneNumber' => $phone_number,
+            'AccountReference' => $account_reference,
+            'TransactionDesc' => $transaction_desc,
+            'CallBackURL' => $callback_url
+        ]);
+    } catch (\Throwable $e) {
+        return $e->getMessage();
+    }
+
+    $res = json_decode($response);
+    if (isset($res->ResponseCode) && $res->ResponseCode == 0) {
+        $MerchantRequestID = $res->MerchantRequestID;
+        $CheckoutRequestID = $res->CheckoutRequestID;
+        $CustomerMessage = $res->CustomerMessage;
+
+        // Save to database
+        $payment = new Mpesa();
+        $payment->order_id = $order_id;
+        $payment->PhoneNumber = $phone_number;
+        $payment->amount = $amount;
+        $payment->reference = $account_reference;
+        $payment->description = $transaction_desc;
+        $payment->MerchantRequestID = $MerchantRequestID;
+        $payment->CheckoutRequestID = $CheckoutRequestID;
+        $payment->status = 'Requested';
+        $payment->save();
+
+        return $CustomerMessage;
+    }
+
+    Log::error('Failed to initiate STK push: ' . json_encode($res));
+    return 'Failed to initiate STK push. Response: ' . json_encode($res);
+}
+
+//postman
+
+public function order_simulate_stk_push()
+{
+    $phone_number = '0718582904';
+    $amount = '1';
+    $order_id = 74;
+    // Ensure phone number is correctly formatted to Kenyan format
+    $phone_number = '254' . Str::substr($phone_number, -9);
+
+    $access_token = $this->token();
+    $time_stamp = now()->format('YmdHis');
+
+    $party_a = $phone_number;
+    $party_b = env('BUSINESS_SHORTCODE');
+    $passkey = env('PASSKEY');
+    $transaction_type = env('TRANSACTION_TYPE');
+    // $callback_url = env('CALLBACK_URL');
+    $callback_url='https://cb92-41-90-177-135.ngrok-free.app/mpesa-callback';
+    $business_short_code = env('BUSINESS_SHORTCODE');
+    $account_reference = env('ACCOUNT_REFERENCE');
+    $password = base64_encode($business_short_code . $passkey . $time_stamp);
+    $push_url = env('PUSH_URL');
+    $transaction_desc = env('TRANSACTION_DESCRIPTION');
+
+    try {
+        $response = Http::withToken($access_token)->post($push_url, [
+            'BusinessShortCode' => $business_short_code,
+            'Password' => $password,
+            'Timestamp' => $time_stamp,
+            'TransactionType' => $transaction_type,
+            'Amount' => $amount,
+            'PartyA' => $party_a,
+            'PartyB' => $party_b,
+            'PhoneNumber' => $phone_number,
+            'AccountReference' => $account_reference,
+            'TransactionDesc' => $transaction_desc,
+            'CallBackURL' => $callback_url
+        ]);
+    } catch (\Throwable $e) {
+        return $e->getMessage();
+    }
+
+    $res = json_decode($response);
+    if (isset($res->ResponseCode) && $res->ResponseCode == 0) {
+        $MerchantRequestID = $res->MerchantRequestID;
+        $CheckoutRequestID = $res->CheckoutRequestID;
+        $CustomerMessage = $res->CustomerMessage;
+
+        // Save to database
+        $payment = new Mpesa();
+        $payment->order_id = $order_id;
+        $payment->PhoneNumber = $phone_number;
+        $payment->amount = $amount;
+        $payment->reference = $account_reference;
+        $payment->description = $transaction_desc;
+        $payment->MerchantRequestID = $MerchantRequestID;
+        $payment->CheckoutRequestID = $CheckoutRequestID;
+        $payment->status = 'Requested';
+        $payment->save();
+
+        return $res;
+    }
+
+    Log::error('Failed to initiate STK push: ' . json_encode($res));
+    return 'Failed to initiate STK push. Response: ' . json_encode($res);
+}
+
+
     public function stk_push()
     {
         //get access key from above
@@ -409,7 +607,42 @@ class MPesaController extends Controller
             return $CustomerMessage;
         }
     }
+    // public function stk_callback()
+    // {
+    //     // Retrieve the input data
+    //     $data = file_get_contents('php://input');
+    //     //Storage::disk('local')->put('stk.txt', $data);
+    //     $response = json_decode($data);
 
+    //     $ResultCode = $response->Body->stkCallback->ResultCode;
+
+    //     if ($ResultCode == 0) {
+    //         $MerchantRequestID = $response->Body->stkCallback->MerchantRequestID;
+    //         $CheckoutRequestID = $response->Body->stkCallback->CheckoutRequestID;
+    //         $ResultDesc = $response->Body->stkCallback->ResultDesc;
+    //         $Amount = $response->Body->stkCallback->CallbackMetadata->Item[0]->Value;
+    //         $MpesaReceiptNumber = $response->Body->stkCallback->CallbackMetadata->Item[1]->Value;
+    //         //$Balance=$response->Body->stkCallback->CallbackMetadata->Item[2]->Value;
+    //         $TransactionDate = $response->Body->stkCallback->CallbackMetadata->Item[3]->Value;
+    //         $PhoneNumber = $response->Body->stkCallback->CallbackMetadata->Item[3]->Value;
+
+    //         $payment = Mpesa::where('CheckoutRequestID', $CheckoutRequestID)->firstOrfail();
+    //         $payment->status = 'Paid';
+    //         $payment->TransactionDate = $TransactionDate;
+    //         $payment->MpesaReceiptNumber = $MpesaReceiptNumber;
+    //         $payment->ResultDesc = $ResultDesc;
+    //         $payment->save();
+    //     } else {
+
+    //         $CheckoutRequestID = $response->Body->stkCallback->CheckoutRequestID;
+    //         $ResultDesc = $response->Body->stkCallback->ResultDesc;
+    //         $payment = Mpesa::where('CheckoutRequestID', $CheckoutRequestID)->firstOrfail();
+
+    //         $payment->ResultDesc = $ResultDesc;
+    //         $payment->status = 'Failed';
+    //         $payment->save();
+    //     }
+    // }
     public function stk_callback()
     {
         // Retrieve the input data
@@ -431,7 +664,7 @@ class MPesaController extends Controller
 
             $payment = Mpesa::where('CheckoutRequestID', $CheckoutRequestID)->firstOrfail();
             $payment->status = 'Paid';
-            $payment->TransactionDate = $TransactionDate;
+            //$payment->TransactionDate = $TransactionDate;
             $payment->MpesaReceiptNumber = $MpesaReceiptNumber;
             $payment->ResultDesc = $ResultDesc;
             $payment->save();
@@ -445,8 +678,9 @@ class MPesaController extends Controller
             $payment->status = 'Failed';
             $payment->save();
         }
-    }
 
+
+    }
     //business to customers initialization
 
     public function b2c(){

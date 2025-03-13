@@ -10,24 +10,45 @@ use App\Actions\Payment\PayWithMpesa;
 use App\Enums\PaymentType;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Validate;
 use Shopper\Core\Models\Country;
 use Shopper\Core\Models\PaymentMethod;
 use Shopper\Core\Models\Zone;
 use Spatie\LivewireWizard\Components\StepComponent;
+use Livewire\Attributes\On; 
+use function Livewire\Volt\{state};
+use Darryldecode\Cart\Facades\CartFacade;
+
+
+
 
 class Payment extends StepComponent
 {
     #[Validate('required', message: 'You must select a payment method')]
     public ?int $currentSelected = null;
 
-    #[Validate('required_if:currentSelected,m-pesa', message: 'Phone number is required for Mpesa payment')]
+    #[Validate('required_if:currentSelected,2', message: 'Phone number is required for Mpesa payment')]
     public ?string $phoneNumber = null;
 
     /**
      * @var array|Collection
      */
     public $methods = [];
+
+    public float $price ;
+
+
+    #protected $listeners = ['update-price' => 'updatePrice'];
+
+    // #[On('update-price')] 
+
+    // public function updatePrice($price)
+    // {
+    //     $this->price = $price;
+    //     Log::info('Price before payment', ['price' => $this->price]);
+
+    // }
 
     public function mount(): void
     {
@@ -46,6 +67,18 @@ class Payment extends StepComponent
             ->first();
 
         $this->methods = $zone ? $zone->paymentMethods : [];
+
+        $checkout = session()->get('checkout', []);
+        $shippingPrice = data_get($checkout, 'shipping_option.0.price', 0);
+        $cartTotal = CartFacade::session(session()->getId())->getTotal();
+    
+        $this->price = (float) ($shippingPrice + $cartTotal);
+        
+        Log::info('Price before payment', ['price' => $this->price]);
+
+        Log::info('Checkout session data', session()->get('checkout', []));
+
+
     }
 
     public function updatedCurrentSelected(): void
@@ -74,12 +107,16 @@ class Payment extends StepComponent
         //     PaymentType::Cash() => (new PayWithCash)->handle($order),
         //     PaymentType::Mpesa() => (new PayWithMpesa)->handle($order),
         // };
+        Log::info('Price before payment', ['price' => $this->price]);
         match ($paymentType) {
             PaymentType::Cash() => (new PayWithCash)->handle($order),
+            
+
             PaymentType::Mpesa() => (new PayWithMpesa)->handle($order, [
                 'phone_number' => $this->phoneNumber,
                 // 'transaction_id' => uniqid('MPESA_'),
-                'status' => 'pending',
+                'status' => 'requested',
+                'amount' => $this->price // Reference price here
             ]),
         };
     }

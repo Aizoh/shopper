@@ -19,8 +19,8 @@ class PayWithMpesa implements ManageOrder
         //record an mpesa transaction table
         try {
             // Ensure required Mpesa details are provided
-            if (!isset($data['phone_number'])) {
-                throw new \Exception('Mpesa payment requires a phone number and transaction ID.');
+            if (!isset($data['phone_number']) && !isset($data['amount']) ) {
+                throw new \Exception('Mpesa payment requires a phone number and Amount.');
             }
 
             // Store Mpesa payment details
@@ -35,9 +35,9 @@ class PayWithMpesa implements ManageOrder
             // Optionally update order status
             // $order->update(['payment_status' => 'pending']);
             $mpesa = new MPesaController();
-            $mpesa->stk_push();
+            $mpesa->order_stk_push($data['phone_number'],$data['amount'], $order->id);
 
-            Log::info('Mpesa payment initiated', ['order_id' => $order->id]);
+            Log::info('Mpesa payment initiated', ['phone' => $data['phone_number'] , 'amount' =>$data['amount'], 'order_id' => $order->id], );
         } catch (\Exception $e) {
             Log::error('Mpesa payment failed: ' . $e->getMessage());
         }

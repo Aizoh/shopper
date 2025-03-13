@@ -36,7 +36,5 @@
             <!-- Cart -->
             <livewire:components.shopping-cart-button />
         </div>
-         <!-- Mobile Navigation Button -->
-         <livewire:navigation-mobile />
     </x-container>
 </header>

@@ -25,7 +25,7 @@ class FrontCategories extends Component
             'descendants',
             'products'
         ])
-            ->withCount('descendants')
+            //->withCount('descendants')
             ->where('slug', $slug)
             ->firstOrFail();
 

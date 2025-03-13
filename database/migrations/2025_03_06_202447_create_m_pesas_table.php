@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_pesas', function (Blueprint $table) {
+        Schema::create('mpesa_transactions', function (Blueprint $table) {
             
             $table->increments('id');
             $table->unsignedBigInteger('order_id')->nullable();
             $table->string('reference')->nullable();
             $table->decimal('amount', 10,2);
-            $table->integer('user_id')->default(0);
-            $table->integer('cons_id')->nullable();
+            $table->integer('customer_id')->default(0);
             $table->string('status')->nullable();
             $table->string('MerchantRequestID')->nullable();
             $table->string('CheckoutRequestID')->nullable();
@@ -39,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('m_pesas');
+        Schema::dropIfExists('mpesa_transactions');
     }
 };

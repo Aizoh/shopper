@@ -15,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\ZoneDetector::class,
         ]);
 
+        $middleware->validateCsrfTokens(except: [
+            '*mpesa-callback*',
+            
+        ]);
+
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
