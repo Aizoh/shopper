@@ -57,7 +57,7 @@
                         {{ __('Explore our curated furniture collections, designed to elevate every space. From modern minimalism to classic elegance, find timeless pieces that blend style, comfort, and functionality for your home.') }}
                     </p>
 
-                    <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
+                    {{-- <div class="mt-10 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
                         @foreach($collections as $collection)
                             <x-link href="#" class="group block">
                                 <img
@@ -70,7 +70,39 @@
                                 </h3>
                             </x-link>
                         @endforeach
+                    </div> --}}
+                    {{-- <div class="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+                        @foreach($collections as $collection)
+                            <x-link href="#" class="group block">
+                                <img
+                                    src="{{ $collection->getFirstMediaUrl(config('shopper.media.storage.thumbnail_collection')) }}"
+                                    alt="{{ $collection->name }}"
+                                    class="aspect-[3/2] w-full object-cover group-hover:opacity-75"
+                                />
+                                <h3 class="mt-2 text-base font-semibold text-gray-900">
+                                    {{ $collection->name }}
+                                </h3>
+                            </x-link>
+                        @endforeach
+                    </div> --}}
+                    <div class="mt-10 overflow-x-auto scrollbar-hide">
+                        <div class="flex gap-6 snap-x snap-mandatory scroll-pl-6">
+                            @foreach($collections as $collection)
+                                <x-link href="{{ route('single-collection', $collection->slug) }}" class="group block snap-start shrink-0 w-64">
+                                    <img
+                                        src="{{ $collection->getFirstMediaUrl(config('shopper.media.storage.thumbnail_collection')) }}"
+                                        alt="{{ $collection->name }}"
+                                        class="aspect-[3/2] w-full object-cover group-hover:opacity-75"
+                                    />
+                                    <h3 class="mt-2 text-base font-semibold text-gray-900">
+                                        {{ $collection->name }}
+                                    </h3>
+                                </x-link>
+                            @endforeach
+                        </div>
                     </div>
+                    
+                    
                 </section>
             @endif
 
@@ -79,11 +111,17 @@
                     {{ __('Trending products') }}
                 </h2>
 
-                <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                {{-- <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                    @foreach ($products as $product)
+                        <x-product.card :product="$product" />
+                    @endforeach
+                </div> --}}
+                <div class="mt-6 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                     @foreach ($products as $product)
                         <x-product.card :product="$product" />
                     @endforeach
                 </div>
+                
             </section>
         </x-container>
     </div>

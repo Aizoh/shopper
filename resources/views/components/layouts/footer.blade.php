@@ -165,7 +165,7 @@
             <p class="text-sm text-gray-700">
                 © {{ date('Y') }} {{ config('app.name') }}, Inc. All rights reserved.
                 <a href="#" target="_blank" class="pl-1 underline hover:text-gray-900">
-                    {{ __('Powered by Love') }}
+                    {{ __('Powered by Beauty') }}
                 </a>
             </p>
             <div class="mt-5 divide-x divide-gray-200 sm:mt-0">

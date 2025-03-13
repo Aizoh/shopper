@@ -23,23 +23,25 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Route::get('/maintenance-on', function () {
-    // Change this to your actual secret
-    Artisan::call('down');
+// Route::get('/maintenance-on', function () {
+//     // Change this to your actual secret
+//     Artisan::call('down');
 
-    return response()->json([
-        'message' => 'Application is now in maintenance mode.',
+//     return response()->json([
+//         'message' => 'Application is now in maintenance mode.',
         
-    ]);
-});
+//     ]);
+// });
 
-Route::get('/maintenance-off', function () {
-    Artisan::call('up');
-    return response()->json(['message' => 'Application is now live.']);
-});
+// Route::get('/maintenance-off', function () {
+//     Artisan::call('up');
+//     return response()->json(['message' => 'Application is now live.']);
+// });
 Route::get('/', Pages\Home::class)->name('home');
 Route::get('/category/{slug}', FrontCategories::class)->name('front.category');
 Route::get('/products/{slug}', Pages\SingleProduct::class)->name('single-product');
+Route::get('/collection/{slug}', Pages\SingleCollection::class)->name('single-collection');
+
 
 Route::get('search', [ProductController::class, 'searchFront'])->name('products.search');
 
