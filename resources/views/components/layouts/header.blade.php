@@ -30,7 +30,6 @@
             {{-- <livewire:components.new-product-search />  --}}
 
             
-            <livewire:product-search />
 
 
             <!-- Cart -->

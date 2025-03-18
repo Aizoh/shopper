@@ -13,6 +13,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Artisan;
 use Shopper\Core\Repositories\ProductRepository;
 use Shopper\Core\Repositories\VariantRepository;
 use Shopper\Livewire\Pages\AbstractPageComponent;
@@ -64,6 +65,9 @@ class Variant extends AbstractPageComponent implements HasActions, HasForms
             ])
             ->action(function (array $data): void {
                 $this->variant->update($data);
+                //clear to acomodate changes to price  
+                Artisan::call('view:clear');
+
 
                 Notification::make()
                     ->title(__('shopper::pages/products.notifications.variation_update'))

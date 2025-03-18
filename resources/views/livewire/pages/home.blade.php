@@ -1,4 +1,6 @@
 <div class="relative isolate overflow-hidden">
+    <livewire:product-search />
+
     <svg
         class="absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
         aria-hidden="true"
@@ -39,9 +41,12 @@
                 </x-buttons.primary>
             </div>
         </div>
+         
         <div class="mt-16 sm:mt-24 lg:mt-0 lg:shrink-0 lg:grow">
-            <img class="h-auto object-cover lg:max-w-3xl mx-auto" src="https://res.cloudinary.com/mckenziearts/image/upload/v1738704321/b3h4qwymvjxpfb8naf0v.png" alt="" />
+            <img class="h-auto object-cover lg:max-w-3xl mx-auto" src="{{ asset('images/2br.png') }}" alt="" />
         </div>
+        
+   
     </x-container>
 
      <x-stats /> 
