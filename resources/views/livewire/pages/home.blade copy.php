@@ -1,70 +1,3 @@
-@push('customstyles')
-<style>
-    * {box-sizing: border-box;}
-    body {font-family: Verdana, sans-serif;}
-    .mySlides {display: none;}
-    img {vertical-align: middle;}
-    
-    /* Slideshow container */
-    .slideshow-container {
-      max-width: 1000px;
-      position: relative;
-      margin: auto;
-    }
-    
-    /* Caption text */
-    .text {
-      color: #f2f2f2;
-      font-size: 15px;
-      padding: 8px 12px;
-      position: absolute;
-      bottom: 8px;
-      width: 100%;
-      text-align: center;
-    }
-    
-    /* Number text (1/3 etc) */
-    .numbertext {
-      color: #f2f2f2;
-      font-size: 12px;
-      padding: 8px 12px;
-      position: absolute;
-      top: 0;
-    }
-    
-    /* The dots/bullets/indicators */
-    .dot {
-      height: 15px;
-      width: 15px;
-      margin: 0 2px;
-      background-color: #bbb;
-      border-radius: 50%;
-      display: inline-block;
-      transition: background-color 0.6s ease;
-    }
-    
-    .active {
-      background-color: #717171;
-    }
-    
-    /* Fading animation */
-    .fade {
-      animation-name: fade;
-      animation-duration: 1.5s;
-    }
-    
-    @keyframes fade {
-      from {opacity: .4} 
-      to {opacity: 1}
-    }
-    
-    /* On smaller screens, decrease text size */
-    @media only screen and (max-width: 300px) {
-      .text {font-size: 11px}
-    }
-    </style>
-@endpush
-
 <div class="relative isolate overflow-hidden">
     <livewire:product-search />
 
@@ -91,12 +24,10 @@
         <div class="sm:max-w-xl">
             <div>
                 <h1 class="font font-heading text-4xl font-extrabold tracking-tight text-black sm:text-6xl">
-                    {{ __('Best Sellers') }}
+                    {{ __('New arrivals are here') }}
                 </h1>
                 <p class="mt-4 text-xl text-gray-500">
-                    {{ __('We have in stock skincare products created in collaboration with dermatologists, our top-selling products are formulated with three essential ceramides to restore the skin/’s protective barrier, locking in moisture while keeping impurities out.
-                    Infused with ingredients like hyaluronic acid, these products help retain hydration, leaving skin looking healthy and refreshed.
-                    Explore our best-sellers or our full range of skincare solutions that match for your unique needs.') }}
+                    {{ __('The new arrivals have, well, newly arrived. Check out the latest options from our summer small-batch release while they\'re still in stock.') }}
                 </p>
             </div>
             <div class="py-10">
@@ -112,35 +43,7 @@
         </div>
          
         <div class="mt-16 sm:mt-24 lg:mt-0 lg:shrink-0 lg:grow">
-            <div class="slideshow-container">
-
-                <div class="mySlides fade">
-                  <div class="numbertext">1 / 3</div>
-                  <img src="{{ asset('images/2br.png') }}" style="width:100%">
-                  <div class="text">Caption Text</div>
-                </div>
-                
-                <div class="mySlides fade">
-                  <div class="numbertext">2 / 3</div>
-                  <img src="{{ asset('images/3.jpg') }}"style="width:100%">
-                  <div class="text">Caption Two</div>
-                </div>
-                
-                <div class="mySlides fade">
-                  <div class="numbertext">3 / 3</div>
-                  <img src="{{ asset('images/1.jpg') }}" style="width:100%">
-                  <div class="text">Caption Three</div>
-                </div>
-                
-            </div>
-                <br>
-                
-                <div style="text-align:center">
-                  <span class="dot"></span> 
-                  <span class="dot"></span> 
-                  <span class="dot"></span> 
-                </div>
-            {{-- <img class="h-auto object-cover lg:max-w-3xl mx-auto" src="{{ asset('images/2br.png') }}" alt="" /> --}}
+            <img class="h-auto object-cover lg:max-w-3xl mx-auto" src="{{ asset('images/2br.png') }}" alt="" />
         </div>
         
    
@@ -210,7 +113,7 @@
 
             <section aria-labelledby="products-list" class="mt-16 max-w-3xl lg:mt-32 lg:max-w-none">
                 <h2 class="font-heading text-2xl font-semibold tracking-tight text-gray-950 sm:text-3xl">
-                    {{ __('Popular products') }}
+                    {{ __('Trending products') }}
                 </h2>
 
                 {{-- <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -228,26 +131,3 @@
         </x-container>
     </div>
 </div>
-@push('customscripts')
-<script>
-    let slideIndex = 0;
-    showSlides();
-    
-    function showSlides() {
-      let i;
-      let slides = document.getElementsByClassName("mySlides");
-      let dots = document.getElementsByClassName("dot");
-      for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";  
-      }
-      slideIndex++;
-      if (slideIndex > slides.length) {slideIndex = 1}    
-      for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-      }
-      slides[slideIndex-1].style.display = "block";  
-      dots[slideIndex-1].className += " active";
-      setTimeout(showSlides, 5000); // Change image every 2 seconds
-    }
-    </script>
-@endpush

@@ -44,12 +44,12 @@
         @click.away="open = false"
     >
         <div class="flex flex-col space-y-4 px-6 py-4">
-            @foreach ($categories as $category)
+            {{-- @foreach ($categories as $category)
                 <x-nav.item :href="route('front.category', $category->slug)" 
                     class="block text-lg font-medium text-gray-700 hover:text-gray-900">
                     {{ $category->name }}
                 </x-nav.item>
-            @endforeach
+            @endforeach --}}
 
             @auth
                 <livewire:components.account-menu />

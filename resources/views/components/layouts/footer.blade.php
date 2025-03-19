@@ -10,7 +10,7 @@
                     />
                 </h3>
                 <p class="mt-10 text-gray-500 text-sm/6">
-                    {{ __('Build modern, scalable online stores. It includes essential features like product management, checkout, and order handling.') }}
+                    {{ __('Beautiful for life') }}
                 </p>
             </div>
             <div class="space-y-12 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0 lg:col-span-2">

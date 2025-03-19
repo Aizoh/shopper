@@ -5,7 +5,8 @@
             <x-link :href="route('home')" class="relative text-sm">
                 <x-brand class="h-8 w-auto" aria-hidden="true"/>
             </x-link>
-            <livewire:components.navigation />
+            {{-- <livewire:components.navigation /> --}}
+            <livewire:components.categories-dropdown />
         </nav>
         <div class="ml-auto flex items-center">
             <div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
